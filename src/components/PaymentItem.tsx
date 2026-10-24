@@ -1,30 +1,40 @@
 import { dateParts, formatMoney } from "../format"
+import { IPayment } from "../types"
+import { usePaymentsStore } from '../store';
+import { CATEGORY_LABELS } from '../categories';
+interface IPaymentItemProps {
+  payment: IPayment
+}
 
-export default function PaymentItem() {
-    const { day, month } = dateParts("2026-02-12")
-
-    return (
-        <li className={false ? "item paid" : "item"}>
-            <div className="main">
-                <time className="date" dateTime={"2026-02-12"}>
-                    <b>{day}</b>
-                    {month}
-                </time>
-                <div className="info">
-                    <span className="name">Spotify</span>
-                    <span className={`tag apps`}>Приложения</span>
-                </div>
-                <span className="price">{formatMoney(159)}</span>
-            </div>
-            <div className="bar">
-                <label className="check">
-                    <input type="checkbox" />
-                    Оплачено
-                </label>
-                <button className="del" type="button">
-                    Удалить
-                </button>
-            </div>
-        </li>
-    )
+export default function PaymentItem({ payment }: IPaymentItemProps) {
+  const { togglePaid, removePayment } = usePaymentsStore();
+  if (!payment )
+    {
+return null;
+    }
+  const { month, day} = dateParts(payment.id);
+const categoryLabel = CATEGORY_LABELS[payment.category] || payment.category;
+  return (
+    <li className={payment.paid ? "item paid" : "item"}>
+      <input
+        type="checkbox"
+        checked={payment.paid}
+        onChange={() => togglePaid(payment.id)}
+      />
+      <time dateTime={payment.id}>
+        {day}.{month}
+      </time>
+      <span className={`tag ${payment.category}`}>
+        {categoryLabel}
+      </span>
+      <span className="title">{payment.title}</span>
+      <span className="price">{formatMoney(payment.amount)}</span>
+      <button
+        type="button"
+        onClick={() => removePayment(payment.id)}
+      >
+        Удалить
+      </button>
+    </li>
+  );
 }
