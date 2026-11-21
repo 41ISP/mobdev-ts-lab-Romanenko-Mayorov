@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">СРОК</string>
+    <string name="title_activity_main">СРОК</string>
+    <string name="package_name">ru.mayorov.srok</string>
+    <string name="custom_url_scheme">ru.mayorov.srok</string>
+</resources>

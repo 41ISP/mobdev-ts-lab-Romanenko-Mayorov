@@ -7,4 +7,4 @@ export interface IPayment {
     category: TCategory,
     paid: boolean
 }
-export type TNewPayment = Omit<IPayment, "id" | "paid">
+export type INewPayment = Omit<IPayment, "id" | "paid">
